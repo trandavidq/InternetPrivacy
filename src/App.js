@@ -1,25 +1,72 @@
 import logo from './logo.svg';
 import './App.css';
-
+import {PasswordInput} from './components/PasswordInput'
+import React, {useEffect, useState} from 'react'
+import {BruteForcePassword} from './components/BruteForcePassword'
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [password,setPassword] = useState('')
+  const [finalPassword, setFinalPassword] = useState('')
+  const [bruteForce,setBruteForce] = useState(false)
+  const [dictionary,setDictionary] = useState(false)
+  function submitPassword(e){
+      console.log('Submitted password to crack: '+ password);
+      setFinalPassword(password)
+      //Prevent state reset
+      e.preventDefault();
+
+  }
+  useEffect(() => {
+      console.log('Hello '+ password)
+  },[finalPassword, bruteForce, dictionary])
+  
+  //Brute force option
+  if(finalPassword.length>0 && bruteForce){
+    console.log('Final password has been set')
+    return (
+      <div className="App">
+        <header className="App-header">
+        <form onSubmit={submitPassword}>
+              <label>
+                  Enter password to crack: 
+                  <input type="text" onChange={e => setPassword(e.target.value)}/>
+              </label>
+              <input type="submit" value="Submit" />
+          </form>
+          <h3>Attempting to brute force the password: {finalPassword}</h3>
+          <BruteForcePassword passwordToCrack={finalPassword}/>
+        </header>
+        
+      </div>
+    );
+  }
+  else{
+    //console.log('Final password NOT set')
+    return (
+      <div className="App">
+        <header className="App-header">
+        <form onSubmit={submitPassword}>
+              <label>
+                  Enter password to crack: 
+                  <input type="text" onChange={e => setPassword(e.target.value)}/>
+              </label>
+              <label>
+                <input type="checkbox" checked={bruteForce} onChange={e => setBruteForce(e.target.checked)}/>
+                Brute force
+              </label>
+              <label>
+                <input type="checkbox" checked = {dictionary} onChange={e => setDictionary(e.target.checked)}/>
+                Dictionary
+              </label>
+              
+              <input type="submit" value="Submit" />
+          </form>
+        </header>
+        
+      </div>
+    );
+
+  }
+  
 }
 
 export default App;
