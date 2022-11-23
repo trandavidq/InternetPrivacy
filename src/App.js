@@ -16,12 +16,10 @@ function App() {
 
   }
   useEffect(() => {
-      console.log('Hello '+ password)
   },[finalPassword, bruteForce, dictionary])
   
   //Brute force option
   if(finalPassword.length>0 && bruteForce){
-    console.log('Final password has been set')
     return (
       <div className="App">
         <header className="App-header">
@@ -40,7 +38,6 @@ function App() {
     );
   }
   else{
-    //console.log('Final password NOT set')
     return (
       <div className="App">
         <header className="App-header">

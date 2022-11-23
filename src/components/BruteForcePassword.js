@@ -1,43 +1,32 @@
 import React, {useState, useEffect} from 'react'
-
+import { bruteForcePasswordCracker } from '../passwordCracker'
 
 export function BruteForcePassword({passwordToCrack}){
     //const [currPasswordGuess, setCurrPasswordGuess] = useState('');
-    const [stop, setStop] = useState(false)
-    const [amount,setAmount] = useState(0)
-    const [time,setTime] = useState(0)
-    const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U','V', 'W', 'X', 'Y', 'Z']
-    function crack(length, current){
-        if(length==0 && !stop){
-            setAmount(amount+1)
-            //console.log('Brute force current guess: '+ current)
-            if(current==passwordToCrack){
-                setStop(true)
-            }
-            return
-        }
-        if(!stop){
-            for(let i =0; i<62;i++){
-                crack(length-1, current+alphabet[i])
-            }
-        }
-        
-    }
+    //Idea is to pass the password into the password cracking and time it
+    const [timeToCrack,setTimeToCrack] = useState(0)
     useEffect(() => {
-        //Only want to run this once, or risk running into infinite loop
-        // while(!stop){
-        //     let pwLength = 1;
-        //     crack(pwLength,"");
-        //     pwLength+=1
-        //     if(stop){
-        //         break;
-        //     }
-        // }
-        // console.log('Cracked password in '+ amount+' attempts');
-
-    },[])
-    return (
-        <h4>Time elapsed: {time}s</h4>
-    );
+        //console.log('Running useEffect()')
+        const getTime = async()=>{
+            const time_ms = await bruteForcePasswordCracker(passwordToCrack)
+            //console.log('TIME_MS: '+time_ms)
+            const time_s = time_ms * 0.001
+            setTimeToCrack(time_ms);
+        }
+        getTime()
+        //console.log('Finished running')
+        //console.log('Time to crack: '+ timeToCrack)
+    },[passwordToCrack])
+    if(timeToCrack!=0){
+        return (
+            <h4>Time elapsed: {timeToCrack}s</h4>
+        );
+    }
+    else{
+        return (
+            <h4>Timing...</h4>
+        );
+    }
+    
 }
 
