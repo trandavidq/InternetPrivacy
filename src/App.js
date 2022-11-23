@@ -9,16 +9,13 @@ function App() {
   const [bruteForce,setBruteForce] = useState(false)
   const [dictionary,setDictionary] = useState(false)
   function submitPassword(e){
-      console.log('Submitted password to crack: '+ password);
       setFinalPassword(password)
-      //Prevent state reset
       e.preventDefault();
 
   }
   useEffect(() => {
   },[finalPassword, bruteForce, dictionary])
   
-  //Brute force option
   if(finalPassword.length>0 && bruteForce){
     return (
       <div className="App">
@@ -58,7 +55,6 @@ function App() {
               <input type="submit" value="Submit" />
           </form>
         </header>
-        
       </div>
     );
 

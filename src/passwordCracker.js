@@ -1,6 +1,16 @@
 let stop = false
 let amount = 0
-const alphabet = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U','V', 'W', 'X', 'Y', 'Z']
+
+const alphabet = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
+'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', 
+'4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 
+'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U','V', 'W', 
+'X', 'Y', 'Z','{','|','}','~','[',']','^','_','`','!','"','#','$','%','&','(',')','*','+',',','-','.','/',':',
+';',
+'<',
+'=',
+'>',
+'?',]
 export async function bruteForcePasswordCracker(password){
     const startTime = Date.now()
     await solve(password)
@@ -15,15 +25,17 @@ async function solve(password){
     const startTime = Date.now()
     //2 minute limit
     while(stop==false && Date.now()-startTime<120000){
+        console.log('Password in loop: '+ password)
         crack(pwLength,"",password)
         pwLength++
         if(stop==true){
             break;
         }
     }
+    //Reset flag for future calls
+    stop = false
 }
 function crack(length, current,password){
-    //console.log(current);
     if(length==0 && stop==false){
         if(current==password){
             stop = true;
@@ -31,11 +43,12 @@ function crack(length, current,password){
         return;
     }
     if(stop==false){
-        for(let i = 0; i<62;i++){
+        for(let i = 0; i<alphabet.length;i++){
             let newCurrent = current.concat(alphabet[i])
             crack(length-1,newCurrent,password);
         }
     }
 }
+
 
 
