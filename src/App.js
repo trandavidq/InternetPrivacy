@@ -1,6 +1,5 @@
 import logo from './logo.svg';
 import './App.css';
-import {PasswordInput} from './components/PasswordInput'
 import React, {useEffect, useState} from 'react'
 import {BruteForcePassword} from './components/BruteForcePassword'
 function App() {
