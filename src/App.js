@@ -1,7 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
-import React, {useEffect, useState} from 'react'
+ import React, {useEffect, useState} from 'react'
 import {BruteForcePassword} from './components/BruteForcePassword'
+import { DictionaryPassword } from './components/DictionaryPassword';
 function App() {
   const [password,setPassword] = useState('')
   const [finalPassword, setFinalPassword] = useState('')
@@ -28,6 +29,24 @@ function App() {
           </form>
           <h3>Attempting to brute force the password: {finalPassword}</h3>
           <BruteForcePassword passwordToCrack={finalPassword}/>
+        </header>
+        
+      </div>
+    );
+  }
+  else if(finalPassword.length >0 && dictionary){
+    return (
+      <div className="App">
+        <header className="App-header">
+        <form onSubmit={submitPassword}>
+              <label>
+                  Enter password to crack: 
+                  <input type="text" onChange={e => setPassword(e.target.value)}/>
+              </label>
+              <input type="submit" value="Submit" />
+          </form>
+          <h3>Attempting to dictionary attack : {finalPassword}</h3>
+          <DictionaryPassword passwordToCrack={finalPassword}/>
         </header>
         
       </div>
